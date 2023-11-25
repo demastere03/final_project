@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20,
                 ),
                 Text(
-                  'Welcome Back!',
+                  'Valorant Informative',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(

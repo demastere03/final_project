@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tugas_akhir/api_source/api_source.dart';
 import 'package:tugas_akhir/list_detail_page/list_detail_agent.dart';
 import 'package:tugas_akhir/main_page/bottom_bar.dart';
@@ -16,6 +17,9 @@ class _AgentMenuState extends State<AgentMenu> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: GoogleFonts.montserrat().fontFamily,
+      ),
       title: 'Valorant Agent Menu',
       home: Scaffold(
         appBar: AppBar(
@@ -40,6 +44,13 @@ class _AgentMenuState extends State<AgentMenu> {
 
   Widget _buildListUsersBody() {
     return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+        colors: [Color(0xff1a1e2d), Color(0xff8a001c)],
+        stops: [0.2, 0.87],
+        begin: Alignment.bottomCenter,
+        end: Alignment.topCenter,
+      )),
       child: FutureBuilder(
         future: ApiDataSource.instance.loadUsers(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -78,30 +89,43 @@ class _AgentMenuState extends State<AgentMenu> {
   }
 
   Widget _buildItemUsers(Data agent) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AgentDetailMenu(uuid: agent.uuid!),
-            ));
-      },
-      child: Card(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: 50,
-              child: Image.network(agent.displayIcon!),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text(agent.displayName!), Text(agent.developerName!)],
-            ),
-          ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AgentDetailMenu(uuid: agent.uuid!),
+              ));
+        },
+        child: Card(
+          elevation: 5,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: 100,
+                child: Image.network(agent.displayIcon!),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    agent.displayName!,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(agent.developerName!)
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

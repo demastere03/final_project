@@ -60,81 +60,106 @@ class MapDetailMenu extends StatelessWidget {
 
   Widget _buildItemUsers(Data data) {
     return Container(
-      padding: EdgeInsets.all(10),
-      child: Card(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            data.displayName!,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 10),
-          Image.network(
-            data.splash!,
-            width: 200,
-            height: 200,
-          ),
-          SizedBox(height: 10),
-          Text(
-            'Map Description',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.start,
-          ),
-          SizedBox(height: 5),
-          Text(
-            data.narrativeDescription ?? '',
-            style: TextStyle(fontSize: 15),
-            textAlign: TextAlign.justify,
-          ),
-          SizedBox(height: 5),
-          Text(
-            'Map Coordinates',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.start,
-          ),
-          SizedBox(height: 5),
-          Text(
-            data.coordinates ?? '',
-            style: TextStyle(fontSize: 15),
-            textAlign: TextAlign.justify,
-          ),
-          SizedBox(height: 5),
-          Text(
-            'Map Spike Sites',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.start,
-          ),
-          SizedBox(height: 5),
-          Text(
-            data.tacticalDescription ?? '',
-            style: TextStyle(fontSize: 15),
-            textAlign: TextAlign.justify,
-          ),
-          SizedBox(height: 5),
-          Text(
-            'Map Overview',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.start,
-          ),
-          Image.network(
-            data.displayIcon ?? '',
-            width: 300,
-            height: 300,
-          ),
-          Text(
-            "* Yellow area indicates Spike Site where T-teams have to plant in order to complete objective",
-            style: TextStyle(fontSize: 10),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            "* Gray area indicates the battle area of that map",
-            style: TextStyle(fontSize: 10),
-            textAlign: TextAlign.center,
-          ),
-        ],
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+        colors: [Color(0xff1a1e2d), Color(0xff8a001c)],
+        stops: [0.2, 0.87],
+        begin: Alignment.bottomCenter,
+        end: Alignment.topCenter,
       )),
+      padding: EdgeInsets.all(10),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    data.displayName!,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  ClipPath(
+                    clipper: ShapeBorderClipper(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20))),
+                    child: Image.network(
+                      data.splash!,
+                      width: 400,
+                      height: 400,
+                      filterQuality: FilterQuality.high,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Map Description',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.start,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    data.narrativeDescription ?? '',
+                    style: TextStyle(fontSize: 15),
+                    textAlign: TextAlign.justify,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    'Map Coordinates',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.start,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    data.coordinates ?? '',
+                    style: TextStyle(fontSize: 15),
+                    textAlign: TextAlign.justify,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    'Map Spike Sites',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.start,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    data.tacticalDescription ?? '',
+                    style: TextStyle(fontSize: 15),
+                    textAlign: TextAlign.justify,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    'Map Overview',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.start,
+                  ),
+                  Image.network(
+                    data.displayIcon ?? '',
+                    width: 300,
+                    height: 300,
+                  ),
+                  Text(
+                    "* Yellow area indicates Spike Site where T-teams have to plant in order to complete objective",
+                    style: TextStyle(fontSize: 10),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    "* Gray area indicates the battle area of that map",
+                    style: TextStyle(fontSize: 10),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            )),
+      ),
     );
   }
 }

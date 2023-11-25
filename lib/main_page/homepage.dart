@@ -88,21 +88,38 @@ class _HomepageState extends State<Homepage> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Image.asset(
-                image,
-                fit: BoxFit.fill,
+              ClipPath(
+                clipper: ShapeBorderClipper(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
+                child: Image.asset(
+                  image,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              SizedBox(
+                height: 20,
               ),
               Text(
                 title,
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              Text(
-                desc,
-                style: const TextStyle(
-                  fontSize: 18,
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  desc,
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ),
@@ -127,25 +144,39 @@ class _HomepageState extends State<Homepage> {
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Image.asset(
+          child: Column(children: [
+            ClipPath(
+              clipper: ShapeBorderClipper(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20))),
+              child: Image.asset(
                 image,
                 fit: BoxFit.fill,
               ),
-              Text(
-                title,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              Text(
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
                 desc,
                 style: const TextStyle(
                   fontSize: 18,
                 ),
-              )
-            ],
-          ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+          ]),
         ),
       ),
     );
@@ -170,21 +201,41 @@ class _HomepageState extends State<Homepage> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Image.asset(
-                image,
-                fit: BoxFit.fill,
+              ClipPath(
+                clipper: ShapeBorderClipper(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
+                child: Image.asset(
+                  image,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 20,
               ),
               Text(
                 title,
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              Text(
-                desc,
-                style: const TextStyle(
-                  fontSize: 18,
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  desc,
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ),
@@ -211,19 +262,33 @@ class _HomepageState extends State<Homepage> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Image.asset(
-                image,
-                fit: BoxFit.fill,
+              ClipPath(
+                clipper: ShapeBorderClipper(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
+                child: Image.asset(
+                  image,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              SizedBox(
+                height: 20,
               ),
               Text(
                 title,
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              Text(
-                desc,
-                style: const TextStyle(
-                  fontSize: 18,
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  desc,
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
               )
             ],

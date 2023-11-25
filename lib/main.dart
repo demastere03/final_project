@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Valorant Informative',
       theme: ThemeData(
         fontFamily: GoogleFonts.montserrat().fontFamily,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

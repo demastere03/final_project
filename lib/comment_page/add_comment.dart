@@ -18,7 +18,7 @@ class _AddCommentState extends State<AddComment> {
   late Box<CommentModel> _myBox;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _myBox = Hive.box(boxName);
   }
@@ -26,26 +26,25 @@ class _AddCommentState extends State<AddComment> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Add Comment',
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          appBar: AppBar(
-            title: Text("Add Comment"),
-            centerTitle: true,
-          ),
-          body: Padding(
+      title: 'Add Comment',
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Add Comment"),
+          centerTitle: true,
+        ),
+        body: Padding(
             padding: const EdgeInsets.all(12),
-            child:Form(
+            child: Form(
               key: _formKey,
               child: Column(
                 children: [
                   TextFormField(
                     controller: _titleController,
                     decoration: const InputDecoration(
-                      labelText: 'Title', border: OutlineInputBorder()
-                    ),
-                    validator: (value){
-                      if (value == null || value.isEmpty){
+                        labelText: 'Title', border: OutlineInputBorder()),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
                         return 'Title is Required';
                       }
                       return null;
@@ -55,32 +54,38 @@ class _AddCommentState extends State<AddComment> {
                   TextFormField(
                     controller: _descriptionController,
                     decoration: const InputDecoration(
-                        labelText: 'Title', border: OutlineInputBorder()
-                    ),
-                    validator: (value){
-                      if (value == null || value.isEmpty){
-                        return 'Title is Required';
+                        labelText: 'Description', border: OutlineInputBorder()),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Description is Required';
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 20),
-                  ElevatedButton(onPressed: () {
-                       if (_formKey.currentState!.validate()){
-                         _myBox.add(CommentModel
-                           (title: _titleController.text, description: _descriptionController.text),
-                         );
-                         Navigator.pop(context);
-                       }
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _myBox.add(
+                          CommentModel(
+                              title: _titleController.text,
+                              description: _descriptionController.text),
+                        );
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Comment Added'),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+                      }
                     },
                     child: const Text('SUBMIT'),
                   ),
                 ],
               ),
-            )
-          ),
-        ),
+            )),
+      ),
     );
-
   }
 }

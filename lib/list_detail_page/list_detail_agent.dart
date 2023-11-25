@@ -78,11 +78,18 @@ class AgentDetailMenu extends StatelessWidget {
 
   Widget _buildItemUsers(Data data) {
     return Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+          colors: [Color(0xff1a1e2d), Color(0xff8a001c)],
+          stops: [0.2, 0.87],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+        )),
         padding: EdgeInsets.all(10),
         child: Column(
           children: [
             Card(
-              elevation: 4.0,
+              elevation: 5.0,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -106,8 +113,8 @@ class AgentDetailMenu extends StatelessWidget {
               ),
             ),
             Card(
-              elevation: 4.0,
-              color: Colors.grey[200],
+              elevation: 5.0,
+              color: Colors.lightBlue[50],
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -130,7 +137,8 @@ class AgentDetailMenu extends StatelessWidget {
               ),
             ),
             Card(
-              elevation: 4.0,
+              elevation: 5.0,
+              color: Colors.lightBlue[50],
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -146,7 +154,7 @@ class AgentDetailMenu extends StatelessWidget {
                       data.role!.displayName!,
                       style: TextStyle(fontSize: 15),
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: 10),
                     Text(
                       'Role Description',
                       style:
@@ -164,7 +172,7 @@ class AgentDetailMenu extends StatelessWidget {
               ),
             ),
             Card(
-              elevation: 4.0,
+              elevation: 5.0,
               color: Colors.lightBlue[50],
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -208,6 +216,7 @@ class AbilitiesWidget extends StatelessWidget {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 5),
                     Text(ability.slot!),
                     SizedBox(height: 5),
                     Text(ability.description!),

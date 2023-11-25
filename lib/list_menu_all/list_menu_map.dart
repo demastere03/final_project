@@ -23,6 +23,13 @@ class _MapMenuState extends State<MapMenu> {
 
   Widget _buildListUsersBody() {
     return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+        colors: [Color(0xff1a1e2d), Color(0xff8a001c)],
+        stops: [0.2, 0.87],
+        begin: Alignment.bottomCenter,
+        end: Alignment.topCenter,
+      )),
       child: FutureBuilder(
         future: ApiDataSource2.instance.loadUsers(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -61,34 +68,37 @@ class _MapMenuState extends State<MapMenu> {
   }
 
   Widget _buildItemUsers(Data map) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MapDetailMenu(uuid: map.uuid!),
-            ));
-      },
-      child: Card(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: 100,
-              child: Image.network(
-                map.splash!,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MapDetailMenu(uuid: map.uuid!),
+              ));
+        },
+        child: Card(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: 150,
+                child: Image.network(
+                  map.splash!,
+                ),
               ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(map.displayName!),
-              ],
-            ),
-          ],
+              SizedBox(
+                width: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(map.displayName!),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

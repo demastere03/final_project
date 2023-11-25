@@ -1,4 +1,5 @@
 import 'package:tugas_akhir/api_source/api_source_2.dart';
+import 'package:tugas_akhir/list_detail_page/list_detail_maps.dart';
 import 'package:tugas_akhir/product_model/map_model.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class _MapMenuState extends State<MapMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("List dari User"),
+        title: Text("Map List Menu"),
       ),
       body: _buildListUsersBody(),
     );
@@ -61,12 +62,19 @@ class _MapMenuState extends State<MapMenu> {
 
   Widget _buildItemUsers(Data map) {
     return InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(
+          builder: (context) => MapDetailMenu(uuid: map.uuid!),
+        )
+        );
+      },
       child: Card(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              width: 50,
+              width: 100,
               child: Image.network(map.splash!),
             ),
             SizedBox(width: 20,),

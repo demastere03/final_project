@@ -6,8 +6,4 @@ class ApiDataSource {
   Future<Map<String, dynamic>> loadUsers() {
     return BaseNetwork.get("agents?isPlayableCharacter=true");
   }
-
-  Future<Map<String, dynamic>> getAgentDetail(String uuid) {
-    return BaseNetwork.get("agents/$uuid");
-  }
 }

@@ -3,13 +3,15 @@ class MapValo {
   List<Data>? data;
 
   MapValo({
-    this.status,
+    required this.status,
     this.data,
   });
 
   MapValo.fromJson(Map<String, dynamic> json) {
-    status = json['status'] as int?;
-    data = (json['data'] as List?)?.map((dynamic e) => Data.fromJson(e as Map<String,dynamic>)).toList();
+    status = (json['status'] ?? 0) as int?;
+    data = (json['data'] as List?)
+        ?.map((dynamic e) => Data.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -70,7 +72,9 @@ class Data {
     yMultiplier = json['yMultiplier'] as double?;
     xScalarToAdd = json['xScalarToAdd'] as double?;
     yScalarToAdd = json['yScalarToAdd'] as double?;
-    callouts = (json['callouts'] as List?)?.map((dynamic e) => Callouts.fromJson(e as Map<String,dynamic>)).toList();
+    callouts = (json['callouts'] as List?)
+        ?.map((dynamic e) => Callouts.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -108,7 +112,9 @@ class Callouts {
   Callouts.fromJson(Map<String, dynamic> json) {
     regionName = json['regionName'] as String?;
     superRegionName = json['superRegionName'] as String?;
-    location = (json['location'] as Map<String,dynamic>?) != null ? Location.fromJson(json['location'] as Map<String,dynamic>) : null;
+    location = (json['location'] as Map<String, dynamic>?) != null
+        ? Location.fromJson(json['location'] as Map<String, dynamic>)
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -121,8 +127,8 @@ class Callouts {
 }
 
 class Location {
-  double? x;
-  double? y;
+  num? x;
+  num? y;
 
   Location({
     this.x,
@@ -130,8 +136,8 @@ class Location {
   });
 
   Location.fromJson(Map<String, dynamic> json) {
-    x = json['x'] as double?;
-    y = json['y'] as double?;
+    x = (json['x'] as num?)?.toDouble();
+    y = (json['y'] as num?)?.toDouble();
   }
 
   Map<String, dynamic> toJson() {

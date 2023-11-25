@@ -52,139 +52,141 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login Page',
-      debugShowCheckedModeBanner: false,
-        home: Scaffold(
-        body: Center(
+    return Scaffold(
+      body: Center(
         child: SingleChildScrollView(
           child: Padding(
-          padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-              Text(
-              'Welcome Back!',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-
-              SizedBox(
-              height: 20,
-              ),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                Container(
+                  height: 300,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    image: DecorationImage(
+                      image: AssetImage('assets/jett-valorant.gif'),
+                      fit: BoxFit.cover,
+                      filterQuality: FilterQuality.high,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Welcome Back!',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: TextFormField(
-                  controller: _usernameController,
+                    controller: _usernameController,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       labelText: 'Username',
                       hintText: 'Enter your Username',
                       prefixIcon: Icon(Icons.person),
                     ),
                   ),
-              ),
-
-              SizedBox(
-              height: 20,
-              ),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextFormField(
-                  controller: _passwordController,
-                  obscureText: obsecureText,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    ),
-                    labelText: 'Password',
-                    hintText: 'Enter your password',
-                    prefixIcon: Icon(Icons.lock),
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              obsecureText = !obsecureText;
-                            });
-                          },
-                          icon: Icon(
-                          obsecureText
-                          ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: Colors.grey[600],
-                        )
-                      ),
-                    contentPadding: EdgeInsets.symmetric(vertical: 15)
-                  ),
                 ),
-              ),
-
-              SizedBox(
-              height: 20,
-              ),
-
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: ElevatedButton(
-                  onPressed: () {
-                    sharedPreferences.setBool('login', false);
-                    sharedPreferences.setString(
-                    'username', _usernameController.text);
-                    if (_usernameController.text == 'admin' &&  _passwordController.text == 'admin') {
-                      printHashForAdminPassword();
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                      builder: (context) => BottomBar()
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    obscureText: obsecureText,
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Login Success'),
-                            backgroundColor: Colors.green,
-                          )
-                      );
-                    }
-                    else {
-                      String hashedPassword =
-                      calculateMD5(_passwordController.text);
-                      print('Hashed Password: $hashedPassword');
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Login Failed'),
-                            backgroundColor: Colors.red,
-                          )
-                      );
-                    }
-                  },
-                  child: Text('Login',),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent[700],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                        labelText: 'Password',
+                        hintText: 'Enter your password',
+                        prefixIcon: Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                obsecureText = !obsecureText;
+                              });
+                            },
+                            icon: Icon(
+                              obsecureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Colors.grey[600],
+                            )),
+                        contentPadding: EdgeInsets.symmetric(vertical: 15)),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      sharedPreferences.setBool('login', false);
+                      sharedPreferences.setString(
+                          'username', _usernameController.text);
+                      if (_usernameController.text == 'admin' &&
+                          _passwordController.text == 'admin') {
+                        printHashForAdminPassword();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BottomBar()));
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Login Success'),
+                          backgroundColor: Colors.green,
+                        ));
+                      } else {
+                        String hashedPassword =
+                            calculateMD5(_passwordController.text);
+                        print('Hashed Password: $hashedPassword');
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Login Failed'),
+                          backgroundColor: Colors.red,
+                        ));
+                      }
+                    },
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 15),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent[700],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 15),
                     ),
                   ),
                 ),
-              SizedBox(
-              height: 20,
-              ),
+                SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),
         ),
       ),
-    ),
     );
-
   }
 }

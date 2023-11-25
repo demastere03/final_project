@@ -21,16 +21,16 @@ class _MapMenuState extends State<MapMenu> {
     );
   }
 
-  Widget _buildListUsersBody(){
+  Widget _buildListUsersBody() {
     return Container(
       child: FutureBuilder(
         future: ApiDataSource2.instance.loadUsers(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if(snapshot.hasError){
+          if (snapshot.hasError) {
             // Jika data ada error maka akan ditampilkan hasil error
             return _buildErrorSection();
           }
-          if(snapshot.hasData){
+          if (snapshot.hasData) {
             // Jika data ada dan berhasil maka akan ditampilkan hasil datanya
             MapValo className = MapValo.fromJson(snapshot.data);
             return _buildSuccessSection(className);
@@ -64,10 +64,10 @@ class _MapMenuState extends State<MapMenu> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(
-          builder: (context) => MapDetailMenu(uuid: map.uuid!),
-        )
-        );
+            context,
+            MaterialPageRoute(
+              builder: (context) => MapDetailMenu(uuid: map.uuid!),
+            ));
       },
       child: Card(
         child: Row(
@@ -75,9 +75,13 @@ class _MapMenuState extends State<MapMenu> {
           children: [
             Container(
               width: 100,
-              child: Image.network(map.splash!),
+              child: Image.network(
+                map.splash!,
+              ),
             ),
-            SizedBox(width: 20,),
+            SizedBox(
+              width: 20,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

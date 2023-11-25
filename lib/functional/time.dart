@@ -1,116 +1,110 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:intl/intl.dart';
+import 'package:tugas_akhir/main_page/bottom_bar.dart';
 
-enum Currency { USD, THB, AED, EUR }
-
-enum TimeZone { WIB, WITA, WIT, LondonMusimPanas, LondonMusimDingin }
-
-class TimeExchanger extends StatefulWidget {
-  const TimeExchanger({Key? key}) : super(key: key);
-
+class TimeConvert extends StatelessWidget {
   @override
-  State<TimeExchanger> createState() => _TimeExchangerProductState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Time Converter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Time Converter'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            tooltip: 'Kembali ke Halaman Utama',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BottomBar(),
+                ),
+              );
+            },
+          ),
+        ),
+        body: TimeConverter(),
+      ),
+    );
+  }
 }
 
-class _TimeExchangerProductState extends State<TimeExchanger> {
-  Currency selectedCurrency = Currency.USD;
-  late Timer timer;
-  TimeZone selectedTimeZone = TimeZone.WIB;
-  String? formattedTime;
-
+class TimeConverter extends StatefulWidget {
   @override
+  _TimeConverterState createState() => _TimeConverterState();
+}
+
+class _TimeConverterState extends State<TimeConverter> {
+  String _londonTime = '';
+  String _tokyoTime = '';
+  String _wibTime = '';
+  String _witTime = '';
+  String _witaTime = '';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Card(
-          elevation: 4,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildTimezoneDropdown(),
-                _buildFormattedTime(),
+    return Padding(
+      padding: const EdgeInsets.all(50.0),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            DataTable(
+              columns: const [
+                DataColumn(label: Text('City')),
+                DataColumn(label: Text('Time')),
+              ],
+              rows: [
+                DataRow(cells: [
+                  DataCell(Text('London')),
+                  DataCell(Text(_londonTime)),
+                ]),
+                DataRow(cells: [
+                  DataCell(Text('Tokyo')),
+                  DataCell(Text(_tokyoTime)),
+                ]),
+                DataRow(cells: [
+                  DataCell(Text('WIB')),
+                  DataCell(Text(_wibTime)),
+                ]),
+                DataRow(cells: [
+                  DataCell(Text('WIT')),
+                  DataCell(Text(_witTime)),
+                ]),
+                DataRow(cells: [
+                  DataCell(Text('WITA')),
+                  DataCell(Text(_witaTime)),
+                ]),
               ],
             ),
-          ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                _convertTime();
+              },
+              child: Text('Convert Time'),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildFormattedTime() {
-    return Text(
-      formattedTime ?? '',
-      style: const TextStyle(
-        fontSize: 12,
-        color: Colors.black,
-      ),
-    );
-  }
+  Future<void> _convertTime() async {
+    final londonTime = DateTime.now().toUtc();
+    final tokyoTime = londonTime.add(Duration(hours: 9));
+    final wibTime = londonTime.add(Duration(hours: 7));
+    final witTime = londonTime.add(Duration(hours: 9));
+    final witaTime = londonTime.add(Duration(hours: 8));
 
-  Widget _buildTimezoneDropdown() {
-    return DropdownButton<TimeZone>(
-      value: selectedTimeZone,
-      onChanged: (TimeZone? newValue) {
-        setState(() {
-          selectedTimeZone = newValue!;
-          getTime(); // Update time when timezone changes
-        });
-      },
-      items: TimeZone.values.map((TimeZone timezone) {
-        return DropdownMenuItem<TimeZone>(
-          value: timezone,
-          child: Text("Convert To ${timezone.toString().split('.').last}",
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              )),
-        );
-      }).toList(),
-    );
-  }
-
-  void getTime() async {
-    try {
-      Response response = await get(
-          Uri.parse("https://worldtimeapi.org/api/timezone/Asia/Jakarta"));
-      Map data = jsonDecode(response.body);
-
-      String datetime = data['datetime'];
-      String offset = data['utc_offset'].substring(1, 3);
-
-      DateTime now = DateTime.parse(datetime);
-      now = now.add(Duration(hours: int.parse(offset)));
-
-      formattedTime = _getFormattedTime(now, selectedTimeZone);
-      setState(() {});
-    } catch (e) {
-      print('Error fetching time: $e');
-    }
-  }
-
-  String _getFormattedTime(DateTime time, TimeZone timeZone) {
-    switch (timeZone) {
-      case TimeZone.WIB:
-        return '${time.hour}:${time.minute}:${time.second} WIB';
-      case TimeZone.WITA:
-        return '${time.hour + 1}:${time.minute}:${time.second} WITA';
-      case TimeZone.WIT:
-        return '${time.hour + 2}:${time.minute}:${time.second} WIT';
-      case TimeZone.LondonMusimPanas:
-        return '${time.hour + 6}:${time.minute}:${time.second} London (Musim Panas)';
-      case TimeZone.LondonMusimDingin:
-        return '${time.hour + 7}:${time.minute}:${time.second} London (Musim Dingin)';
-      default:
-        return '';
-    }
+    setState(() {
+      _londonTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(londonTime);
+      _tokyoTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(tokyoTime);
+      _wibTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(wibTime);
+      _witTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(witTime);
+      _witaTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(witaTime);
+    });
   }
 }

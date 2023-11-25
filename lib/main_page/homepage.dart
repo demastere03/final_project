@@ -14,113 +14,70 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
-      return MaterialApp(
-        title: 'Home Page',
-        debugShowCheckedModeBanner: false,
-          home: Scaffold(
-            appBar: AppBar(
-              title: Text("Valorant Informative"),
-              centerTitle: true,
-              automaticallyImplyLeading: false,
-            ),
-            body: Center(
-              child: Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xff1a1e2d), Color(0xff8a001c)],
-                      stops: [0.2, 0.87],
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                    )
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView(
-                    children: [
-                      CardMenuAgent(
-                        context,
-                        'assets/agent.gif',
-                        'Agents',
-                        'Get an overview of Valorant Agents that player will use in Valorant battlefield.',
-                      ),
-                      CardMenuMaps(
-                        context,
-                        'assets/map.gif',
-                        'Maps',
-                        'Get an overview of Valorant maps that introduce the new player, or even the skilled player, of the Valorant battlefield',
-                      ),
-                      CardMenuMoney(
-                        context,
-                        'assets/convert.gif',
-                        'Money Exchanger',
-                        'Get information about exchange rate of up to 4 famous currency in the world',
-                      ),
-                      CardMenuTimeConvert(
-                        context,
-                        'assets/3f8240fa1d16d0de6d4e7510b43b37ba.gif',
-                        'Money Exchanger',
-                        'Get to know your real time based on 4 timezone',
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-      );
-
-  }
-  Widget CardMenuAgent(context, image, title, desc) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(
-          builder: (context) => AgentMenu(),
-          )
-        );
-      },
-      child: Card(
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        shape: RoundedRectangleBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
+    return MaterialApp(
+      title: 'Home Page',
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Valorant Informative"),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
         ),
-        color: Colors.lightBlueAccent,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Image.network(
-                image,
-                fit: BoxFit.fill,
+        body: Center(
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+              colors: [Color(0xff1a1e2d), Color(0xff8a001c)],
+              stops: [0.2, 0.87],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            )),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView(
+                children: [
+                  CardMenuAgent(
+                    context,
+                    'assets/agent.gif',
+                    'Agents',
+                    'Get an overview of Valorant Agents that player will use in Valorant battlefield.',
+                  ),
+                  CardMenuMaps(
+                    context,
+                    'assets/map.gif',
+                    'Maps',
+                    'Get an overview of Valorant maps that introduce the new player, or even the skilled player, of the Valorant battlefield',
+                  ),
+                  CardMenuMoney(
+                    context,
+                    'assets/convert.gif',
+                    'Money Exchanger',
+                    'Get information about exchange rate of up to 4 famous currency in the world',
+                  ),
+                  CardMenuTimeConvert(
+                    context,
+                    'assets/3f8240fa1d16d0de6d4e7510b43b37ba.gif',
+                    'Time Exchange',
+                    'Get to know your real time based on 4 timezone',
+                  ),
+                ],
               ),
-              Text(
-                title,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-              Text(
-                desc,
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
-              )
-            ],
+            ),
           ),
         ),
       ),
     );
   }
-  Widget CardMenuMaps(context, image, title, desc) {
+
+  Widget CardMenuAgent(context, image, title, desc) {
     return InkWell(
-        onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(
-            builder: (context) => MapMenu(),
-          )
-          );
-        },
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AgentMenu(),
+            ));
+      },
       child: Card(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         shape: RoundedRectangleBorder(
@@ -131,16 +88,14 @@ class _HomepageState extends State<Homepage> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Image.network(
+              Image.asset(
                 image,
                 fit: BoxFit.fill,
               ),
               Text(
                 title,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                ),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text(
                 desc,
@@ -154,35 +109,75 @@ class _HomepageState extends State<Homepage> {
       ),
     );
   }
+
+  Widget CardMenuMaps(context, image, title, desc) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MapMenu(),
+            ));
+      },
+      child: Card(
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shape: RoundedRectangleBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+        ),
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Image.asset(
+                image,
+                fit: BoxFit.fill,
+              ),
+              Text(
+                title,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                desc,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget CardMenuMoney(context, image, title, desc) {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(
-          builder: (context) => MoneyExchanger(),
-        )
-        );
+            context,
+            MaterialPageRoute(
+              builder: (context) => MoneyConvert(),
+            ));
       },
       child: Card(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         shape: RoundedRectangleBorder(
           borderRadius: const BorderRadius.all(Radius.circular(15)),
         ),
-        color: Colors.green,
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Image.network(
+              Image.asset(
                 image,
                 fit: BoxFit.fill,
               ),
               Text(
                 title,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                ),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text(
                 desc,
@@ -196,35 +191,34 @@ class _HomepageState extends State<Homepage> {
       ),
     );
   }
+
   Widget CardMenuTimeConvert(context, image, title, desc) {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(
-          builder: (context) => TimeExchanger(),
-        )
-        );
+            context,
+            MaterialPageRoute(
+              builder: (context) => TimeConvert(),
+            ));
       },
       child: Card(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         shape: RoundedRectangleBorder(
           borderRadius: const BorderRadius.all(Radius.circular(15)),
         ),
-        color: Colors.orangeAccent,
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Image.network(
+              Image.asset(
                 image,
                 fit: BoxFit.fill,
               ),
               Text(
                 title,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                ),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text(
                 desc,
@@ -239,6 +233,3 @@ class _HomepageState extends State<Homepage> {
     );
   }
 }
-
-
-

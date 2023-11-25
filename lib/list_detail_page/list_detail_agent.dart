@@ -12,42 +12,43 @@ class AgentDetailMenu extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Agent Detail Page',
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text("Agent Detail"),
-              centerTitle: true,
-              leading:
-              IconButton(
-                icon: const Icon(Icons.arrow_back),
-                tooltip: 'Halaman Kesan dan Pesan',
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => AgentMenu(),
-                  ),
-                  );
-                },
-              ),
-            ),
-            body: SafeArea(
-              child: SingleChildScrollView(
-                child: FutureBuilder(
-                  future: ApiDataSource.instance.loadUsers(),
-                  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    if (snapshot.hasError) {
-                      // Jika data ada error maka akan ditampilkan hasil error
-                      return _buildErrorSection();
-                    }
-                    if (snapshot.hasData) {
-                      // Jika data ada dan berhasil maka akan ditampilkan hasil datanya
-                      AgentModel className = AgentModel.fromJson(snapshot.data);
-                      return _buildSuccessSection(className);
-                    }
-                    return _buildLoadingSection();
-                  },
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Agent Detail"),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            tooltip: 'Halaman Kesan dan Pesan',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AgentMenu(),
                 ),
-              ),
-            ),
+              );
+            },
+          ),
         ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: FutureBuilder(
+              future: ApiDataSource.instance.loadUsers(),
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                if (snapshot.hasError) {
+                  // Jika data ada error maka akan ditampilkan hasil error
+                  return _buildErrorSection();
+                }
+                if (snapshot.hasData) {
+                  // Jika data ada dan berhasil maka akan ditampilkan hasil datanya
+                  AgentModel className = AgentModel.fromJson(snapshot.data);
+                  return _buildSuccessSection(className);
+                }
+                return _buildLoadingSection();
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -77,7 +78,7 @@ class AgentDetailMenu extends StatelessWidget {
 
   Widget _buildItemUsers(Data data) {
     return Container(
-      padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(10),
         child: Column(
           children: [
             Card(
@@ -89,7 +90,8 @@ class AgentDetailMenu extends StatelessWidget {
                   children: [
                     Text(
                       data.displayName!,
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 10),
@@ -105,13 +107,16 @@ class AgentDetailMenu extends StatelessWidget {
             ),
             Card(
               elevation: 4.0,
+              color: Colors.grey[200],
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Agent Description',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    Text(
+                      'Agent Description',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 5),
                     Text(
@@ -131,17 +136,21 @@ class AgentDetailMenu extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Agent Role',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    Text(
+                      'Agent Role',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 5),
                     Text(
                       data.role!.displayName!,
                       style: TextStyle(fontSize: 15),
                     ),
-                    SizedBox(height: 5),
-                    Text('Role Description',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    SizedBox(height: 30),
+                    Text(
+                      'Role Description',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 5),
                     Text(
@@ -154,8 +163,61 @@ class AgentDetailMenu extends StatelessWidget {
                 ),
               ),
             ),
+            Card(
+              elevation: 4.0,
+              color: Colors.lightBlue[50],
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AbilitiesWidget(abilities: data.abilities!),
+                    SizedBox(height: 10),
+                  ],
+                ),
+              ),
+            )
           ],
-        )
+        ));
+  }
+}
+
+class AbilitiesWidget extends StatelessWidget {
+  final List<Abilities>? abilities;
+
+  AbilitiesWidget({Key? key, this.abilities}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Agent Abilities',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 10),
+        if (abilities != null)
+          Column(
+            children: abilities!.map((ability) {
+              return ListTile(
+                title: Text(ability.displayName!),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(ability.slot!),
+                    SizedBox(height: 5),
+                    Text(ability.description!),
+                  ],
+                ),
+                leading: Image.network(ability.displayIcon!),
+              );
+            }).toList(),
+          ),
+      ],
     );
   }
 }

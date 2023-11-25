@@ -1,161 +1,129 @@
-import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'package:tugas_akhir/main_page/bottom_bar.dart';
 
-enum Currency { USD, THB, AED, EUR }
-
-enum TimeZone { WIB, WITA, WIT, LondonMusimPanas, LondonMusimDingin }
-
-class MoneyExchanger extends StatefulWidget {
-  const MoneyExchanger({Key? key}) : super(key: key);
-
+class MoneyConvert extends StatelessWidget {
   @override
-  State<MoneyExchanger> createState() => _MoneyExchangerState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Currency Converter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Currency Converter'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            tooltip: 'Kembali ke Halaman Utama',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BottomBar(),
+                ),
+              );
+            },
+          ),
+        ),
+        body: CurrencyConverter(),
+      ),
+    );
+  }
 }
 
-class _MoneyExchangerState extends State<MoneyExchanger> {
-  Currency selectedCurrency = Currency.USD;
-  late Timer timer;
-  TimeZone selectedTimeZone = TimeZone.WIB;
-  String? formattedTime;
-
+class CurrencyConverter extends StatefulWidget {
   @override
+  _CurrencyConverterState createState() => _CurrencyConverterState();
+}
+
+class _CurrencyConverterState extends State<CurrencyConverter> {
+  final TextEditingController _amountController = TextEditingController();
+  String _fromCurrency = 'IDR';
+  String _toCurrency = 'IDR';
+  double _convertedAmount = 0.0;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Card(
-          elevation: 4,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildTimezoneDropdown(),
-                _buildFormattedTime(),
-              ],
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(
+            controller: _amountController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(labelText: 'Amount'),
           ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildCurrencyDropdown('From', _fromCurrency),
+              _buildCurrencyDropdown('To', _toCurrency),
+            ],
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              _convertCurrency();
+            },
+            child: Text('Convert'),
+          ),
+          SizedBox(height: 20),
+          Text('Converted Amount: $_convertedAmount $_toCurrency'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCurrencyDropdown(String label, String selectedCurrency) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label),
+        DropdownButton<String>(
+          value: selectedCurrency,
+          onChanged: (String? newValue) {
+            setState(() {
+              if (label == 'From') {
+                _fromCurrency = newValue!;
+              } else {
+                _toCurrency = newValue!;
+              }
+            });
+          },
+          items: ['USD', 'GBP', 'JPY', 'IDR']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
         ),
-      ),
+      ],
     );
   }
 
-  Widget _buildFormattedTime() {
-    return Text(
-      formattedTime ?? '',
-      style: const TextStyle(
-        fontSize: 12,
-        color: Colors.black,
-      ),
-    );
-  }
+  Future<void> _convertCurrency() async {
+    final String apiUrl =
+        'https://api.exchangerate-api.com/v4/latest/$_fromCurrency';
 
-  Widget _buildTimezoneDropdown() {
-    return DropdownButton<TimeZone>(
-      value: selectedTimeZone,
-      onChanged: (TimeZone? newValue) {
-        setState(() {
-          selectedTimeZone = newValue!;
-          getTime(); // Update time when timezone changes
-        });
-      },
-      items: TimeZone.values.map((TimeZone timezone) {
-        return DropdownMenuItem<TimeZone>(
-          value: timezone,
-          child: Text("Convert To ${timezone.toString().split('.').last}",
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              )),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget buildCurrencyDropdown() {
-    return DropdownButton<Currency>(
-      value: selectedCurrency,
-      onChanged: (Currency? newValue) {
-        if (newValue != null) {
-          setState(() {
-            selectedCurrency = newValue;
-          });
-        }
-      },
-      items: Currency.values.map((Currency currency) {
-        return DropdownMenuItem<Currency>(
-          value: currency,
-          child: Text(getCurrencySymbol(currency)),
-        );
-      }).toList(),
-    );
-  }
-
-  String formatPrice(double price) {
-    switch (selectedCurrency) {
-      case Currency.USD:
-        return '\$${price.toStringAsFixed(2)}';
-      case Currency.THB:
-        return '฿${(price * 32).toStringAsFixed(2)}';
-      case Currency.AED:
-        return 'AED ${(price * 4).toStringAsFixed(0)}';
-      case Currency.EUR:
-        return '€${(price * 0.85).toStringAsFixed(2)}';
-    }
-  }
-
-  String getCurrencySymbol(Currency currency) {
-    switch (currency) {
-      case Currency.USD:
-        return '\$';
-      case Currency.THB:
-        return '฿';
-      case Currency.AED:
-        return 'AED';
-      case Currency.EUR:
-        return '€';
-    }
-  }
-
-  void getTime() async {
     try {
-      Response response = await get(
-          Uri.parse("https://worldtimeapi.org/api/timezone/Asia/Jakarta"));
-      Map data = jsonDecode(response.body);
+      final response = await http.get(Uri.parse(apiUrl));
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        final double exchangeRate = data['rates'][_toCurrency];
+        final double amount = double.parse(_amountController.text);
+        final double result = amount * exchangeRate;
 
-      String datetime = data['datetime'];
-      String offset = data['utc_offset'].substring(1, 3);
-
-      DateTime now = DateTime.parse(datetime);
-      now = now.add(Duration(hours: int.parse(offset)));
-
-      formattedTime = _getFormattedTime(now, selectedTimeZone);
-      setState(() {});
+        setState(() {
+          _convertedAmount = result;
+        });
+      } else {
+        throw Exception('Failed to load exchange rates');
+      }
     } catch (e) {
-      print('Error fetching time: $e');
-    }
-  }
-
-  String _getFormattedTime(DateTime time, TimeZone timeZone) {
-    switch (timeZone) {
-      case TimeZone.WIB:
-        return '${time.hour}:${time.minute}:${time.second} WIB';
-      case TimeZone.WITA:
-        return '${time.hour + 1}:${time.minute}:${time.second} WITA';
-      case TimeZone.WIT:
-        return '${time.hour + 2}:${time.minute}:${time.second} WIT';
-      case TimeZone.LondonMusimPanas:
-        return '${time.hour + 6}:${time.minute}:${time.second} London (Musim Panas)';
-      case TimeZone.LondonMusimDingin:
-        return '${time.hour + 7}:${time.minute}:${time.second} London (Musim Dingin)';
-      default:
-        return '';
+      print('Error: $e');
     }
   }
 }

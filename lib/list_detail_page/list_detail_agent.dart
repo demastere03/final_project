@@ -30,7 +30,6 @@ class AgentDetailMenu extends StatelessWidget {
           ),
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
             child: FutureBuilder(
               future: ApiDataSource.instance.loadUsers(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -48,7 +47,6 @@ class AgentDetailMenu extends StatelessWidget {
             ),
           ),
         ),
-      ),
     );
   }
 
@@ -96,14 +94,14 @@ class AgentDetailMenu extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      data.displayName!,
+                      data.displayName??'',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 10),
                     Image.network(
-                      data.fullPortrait!,
+                      data.fullPortrait??'',
                       width: 200,
                       height: 200,
                     ),
@@ -127,7 +125,7 @@ class AgentDetailMenu extends StatelessWidget {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      data.description!,
+                      data.description??'',
                       style: TextStyle(fontSize: 15),
                       textAlign: TextAlign.justify,
                     ),
@@ -151,7 +149,7 @@ class AgentDetailMenu extends StatelessWidget {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      data.role!.displayName!,
+                      data.role!.displayName??'',
                       style: TextStyle(fontSize: 15),
                     ),
                     SizedBox(height: 10),
@@ -162,7 +160,7 @@ class AgentDetailMenu extends StatelessWidget {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      data.role!.description!,
+                      data.role!.description??'',
                       style: TextStyle(fontSize: 15),
                       textAlign: TextAlign.justify,
                     ),
@@ -184,7 +182,7 @@ class AgentDetailMenu extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ));
   }
@@ -192,7 +190,6 @@ class AgentDetailMenu extends StatelessWidget {
 
 class AbilitiesWidget extends StatelessWidget {
   final List<Abilities>? abilities;
-
   AbilitiesWidget({Key? key, this.abilities}) : super(key: key);
 
   @override
@@ -212,14 +209,14 @@ class AbilitiesWidget extends StatelessWidget {
           Column(
             children: abilities!.map((ability) {
               return ListTile(
-                title: Text(ability.displayName!),
+                title: Text(ability.displayName??''),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 5),
-                    Text(ability.slot!),
+                    Text(ability.slot??''),
                     SizedBox(height: 5),
-                    Text(ability.description!),
+                    Text(ability.description??''),
                   ],
                 ),
                 leading: Image.network(ability.displayIcon!),

@@ -33,10 +33,10 @@ class Data {
   String? splash;
   String? assetPath;
   String? mapUrl;
-  double? xMultiplier;
-  double? yMultiplier;
-  double? xScalarToAdd;
-  double? yScalarToAdd;
+  num? xMultiplier;
+  num? yMultiplier;
+  num? xScalarToAdd;
+  num? yScalarToAdd;
   List<Callouts>? callouts;
 
   Data({
@@ -68,10 +68,10 @@ class Data {
     splash = json['splash'] as String?;
     assetPath = json['assetPath'] as String?;
     mapUrl = json['mapUrl'] as String?;
-    xMultiplier = json['xMultiplier'] as double?;
-    yMultiplier = json['yMultiplier'] as double?;
-    xScalarToAdd = json['xScalarToAdd'] as double?;
-    yScalarToAdd = json['yScalarToAdd'] as double?;
+    xMultiplier = json['xMultiplier'] as num?;
+    yMultiplier = json['yMultiplier'] as num?;
+    xScalarToAdd = json['xScalarToAdd'] as num?;
+    yScalarToAdd = json['yScalarToAdd'] as num?;
     callouts = (json['callouts'] as List?)
         ?.map((dynamic e) => Callouts.fromJson(e as Map<String, dynamic>))
         .toList();

@@ -14,7 +14,6 @@ class MapDetailMenu extends StatelessWidget {
           centerTitle: true,
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
             child: FutureBuilder(
               future: ApiDataSource2.instance.loadUsers(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -30,7 +29,6 @@ class MapDetailMenu extends StatelessWidget {
                 return _buildLoadingSection();
               },
             ),
-          ),
         ));
   }
 
